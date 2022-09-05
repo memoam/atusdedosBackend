@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "atusdedos backend",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "build": "babel src --out-dir build",
     "dev": "nodemon src/index.js  --exec babel-node",
