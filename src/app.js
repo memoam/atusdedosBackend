@@ -17,11 +17,7 @@ app.set('json spaces', 2);
 app.set('pkg', pkg); // project data
 
 // Middlewares
-app.use(
-  cors({
-    origin: ['https://atusdedos.vercel.app', 'http://localhost:3000'],
-  })
-);
+app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
