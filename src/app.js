@@ -1,22 +1,35 @@
 import express from 'express';
+import cors from 'cors';
 import morgan from 'morgan';
+import helmet from 'helmet';
 import pkg from '../package.json';
-import usersRoutes from './routes/user.routes';
-import authRoutes from './routes/auth.routes';
+
+// Routes
+import usersRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import calendarRoutes from './routes/calendar.routes';
 
 const app = express();
 
-// vars
+// Settings
+app.set('port', process.env.PORT || 4000);
+app.set('json spaces', 2);
 app.set('pkg', pkg); // project data
 
-// middleswares
-app.use(express.json());
+// Middlewares
+app.use(
+  cors({
+    origin: ['https://atusdedos.vercel.app', 'http://localhost:3000'],
+  })
+);
+app.use(helmet());
 app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// routes
+// Routes
 app.get('/', (req, res) => {
-  const { name, version, description, author}= app.get('pkg');
+  const { name, version, description, author } = app.get('pkg');
   res.json({
     name,
     version,
@@ -24,8 +37,8 @@ app.get('/', (req, res) => {
     author,
   });
 });
-app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/calendar', calendarRoutes);
 
 export default app;
