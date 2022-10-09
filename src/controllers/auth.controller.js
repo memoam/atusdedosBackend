@@ -5,12 +5,27 @@ import { SECRET } from '../config.js';
 
 export const signUp = async (req, res) => {
   try {
-    const { username, email, password, roles } = req.body;
+    const {
+      username,
+      name,
+      lastName,
+      email,
+      password,
+      birthDay,
+      birthMonth,
+      birthYear,
+      roles,
+    } = req.body;
 
     // Creating a new User Object
     const newUser = new User({
       username,
+      name,
+      lastName,
       email,
+      birthDay,
+      birthMonth,
+      birthYear,
       password: await User.encryptPassword(password),
     });
 
@@ -34,6 +49,11 @@ export const signUp = async (req, res) => {
       username: savedUser.username,
       email: savedUser.email,
       id: savedUser._id,
+      name: savedUser.name,
+      lastName: savedUser.lastName,
+      birthDay: savedUser.birthDay,
+      birthMonth: savedUser.birthMonth,
+      birthYear: savedUser.birthYear,
     };
     return res.status(200).json({ token, user });
   } catch (error) {
@@ -68,6 +88,11 @@ export const signIn = async (req, res) => {
       username: userFound.username,
       email: userFound.email,
       id: userFound._id,
+      name: userFound.name,
+      lastName: userFound.lastName,
+      birthDay: userFound.birthDay,
+      birthMonth: userFound.birthMonth,
+      birthYear: userFound.birthYear,
     };
     res.status(200).json({ token, user });
   } catch (error) {
